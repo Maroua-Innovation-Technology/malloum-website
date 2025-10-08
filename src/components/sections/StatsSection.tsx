@@ -32,7 +32,7 @@ export const StatsSection = () => {
                 className="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-all"
               >
                 <div
-                  className={`text-5xl md:text-3xl font-bold bg-gradient-to-r ${colors[index]} bg-clip-text text-transparent mb-2`}
+                  className={`text-2xl md:text-3xl font-bold bg-gradient-to-r ${colors[index]} bg-clip-text text-transparent mb-2`}
                 >
                   {stat.value}
                 </div>

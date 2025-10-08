@@ -70,7 +70,7 @@ export const STATS = [
     label: "Élèves Aidés",
   },
   {
-    value: "500+",
+    value: "50+",
     label: "Écoles Partenaires",
   },
   {
