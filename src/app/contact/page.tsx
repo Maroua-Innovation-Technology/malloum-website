@@ -5,6 +5,7 @@ import { Mail, MapPin, Phone, Send, Facebook, Twitter, Linkedin, Instagram } fro
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { COMPANY_NAME } from '@/lib/constants';
+import emailjs from '@emailjs/browser';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -25,21 +26,21 @@ export default function ContactPage() {
     setError('');
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const result = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+          to_email: 'contact@mit.cm',
         },
-        body: JSON.stringify(formData),
-      });
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de l\'envoi');
-      }
-
-      console.log('Message envoyé avec succès:', data);
+      console.log('Email envoyé:', result);
       setSubmitted(true);
       setFormData({
         name: '',
@@ -50,9 +51,9 @@ export default function ContactPage() {
       });
       
       setTimeout(() => setSubmitted(false), 5000);
-    } catch (err: any) {
+    } catch (err) {
       console.error('Erreur:', err);
-      setError(err.message || "Erreur lors de l'envoi. Veuillez réessayer.");
+      setError("Erreur lors de l'envoi. Veuillez réessayer.");
     } finally {
       setLoading(false);
     }
@@ -150,11 +151,11 @@ export default function ContactPage() {
                     className="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-blue-600 focus:outline-none transition-colors"
                   >
                     <option value="">Sélectionnez un sujet</option>
-                    <option value="Demande d'information">Demande d'information</option>
-                    <option value="Partenariat">Partenariat</option>
-                    <option value="Support technique">Support technique</option>
-                    <option value="Inscription d'une école">Inscription d'une école</option>
-                    <option value="Autre">Autre</option>
+                    <option value="information">Demande d'information</option>
+                    <option value="partenariat">Partenariat</option>
+                    <option value="technique">Support technique</option>
+                    <option value="ecole">Inscription d'une école</option>
+                    <option value="autre">Autre</option>
                   </select>
                 </div>
 
@@ -202,7 +203,7 @@ export default function ContactPage() {
               </form>
             </div>
 
-            {/* Informations de Contact */}
+            {/* Informations de Contact - reste identique */}
             <div className="space-y-8">
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">
@@ -287,7 +288,6 @@ export default function ContactPage() {
                   >
                     <Twitter className="w-6 h-6 text-white" />
                   </a>
-                  
                   <a
                     href="https://www.linkedin.com/company/maroua-it/"
                     target="_blank"
@@ -309,7 +309,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Map Section */}
+      {/* Map Section - reste identique */}
       <section className="py-20 px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
@@ -338,7 +338,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section - reste identique */}
       <section className="py-20 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <h2 className="text-4xl font-bold">
